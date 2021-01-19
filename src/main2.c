@@ -13,12 +13,43 @@
 #define MIN_IMAGE_VALUE 0
 #define PI 3.1415926536
 
-double* non_local_means(double* input_image, int patchsize, double filter_sigma, double patch_sigma) {
-
+double* non_local_means(double** input_image, int patchsize, double filter_sigma, double patch_sigma, int width, int height) {
+    /* Loop for each pixel that is inside the patchsize */
+    for(int i = patchsize / 2; i < height - patchsize / 2; i++) {
+        for(int j = patchsize / 2; j < width - patchsize / 2; j++) {
+            /* Create the patchsize * patchsize grid with the selected pixel at the centre */
+            double* pixel_patch = (double *)malloc(patchsize * patchsize * sizeof(double));
+            int counter = 0;
+            for(int k = -patchsize / 2; k < patchsize / 2 + 1 ; k++) {
+                for(int l = -patchsize / 2; l < patchsize / 2 + 1; l++) {
+                    pixel_patch[counter++] = input_image[i + k][j + l];
+                    if(i == height - patchsize / 2 - 1 && j == width - patchsize / 2 - 1) {
+                        printf("%d %d\n", i + k, j + l);
+                    }
+                }
+            }
+            /* Comparison patchsize (we take into account ourselves too) */
+            for(int m = patchsize / 2; m < height - patchsize / 2; m++) {
+                for(int n = patchsize / 2; n < width - patchsize / 2; n++) {
+                    /* Create the patchsize * patchsize grid with the selected pixel at the centre */
+                    double* comparison_patch = (double *)malloc(patchsize * patchsize * sizeof(double));
+                    int counter = 0;
+                    for(int k = -patchsize / 2; k < patchsize / 2 + 1 ; k++) {
+                        for(int l = -patchsize / 2; l < patchsize / 2 + 1; l++) {
+                            comparison_patch[counter++] = input_image[m + k][n + l];
+                        }
+                    }
+                    /* Here we should implement the f algorithm */
+                }
+            }
+        }
+    }
+    printf("hey\n");
 }
 
 int main() {
     int width, height, bpp;
+    int patchsize = 3;
     time_t t;
 
     /* Intializes random number generator */
@@ -47,11 +78,7 @@ int main() {
         }        
     }
 
-    for (int i = 0; i < 5; i++)
-    {
-        printf("%f %f\n", normalized_noisy_image[i], normalized_noisy_2D[0][i]);
-    }
-    
+    non_local_means(normalized_noisy_2D, patchsize, 0.01, 0.01, width, height);
 
     stbi_image_free(original_image);
     stbi_image_free(noisy_image);
