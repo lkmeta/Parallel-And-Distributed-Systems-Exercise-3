@@ -57,7 +57,7 @@ double** non_local_means(double** input_image, int patchsize, double filter_sigm
             double zeta = 0;
             /* Comparison patch (we take into account ourselves too) */
             for(int m = patchsize / 2; m < height - patchsize / 2; m++) {
-                for(int n = patchsize / 2; n < width - patchsize / 2; n++) {
+                for(int n = patchsize / 2; n < width - patchsize / 2; n++) { 
                     /* Create the patchsize * patchsize grid with the selected pixel at the centre */
                     double* comparison_patch = (double *)malloc(patchsize * patchsize * sizeof(double));
                     int counter = 0;
@@ -71,14 +71,16 @@ double** non_local_means(double** input_image, int patchsize, double filter_sigm
                     for(int a = 0; a < patchsize * patchsize; a++) {
                         difference_squared += (pixel_patch[a] - comparison_patch[a]) * (pixel_patch[a] - comparison_patch[a]);
                     }
-                    double zeta_difference_squared = - difference_squared / (patch_sigma * patch_sigma);
                     double w_difference_squared = - difference_squared / (filter_sigma * filter_sigma);
-                    zeta = exp(zeta_difference_squared);
-
-                    double w = 1 / zeta * exp(w_difference_squared);
-                    output_image[i][j] += output_image[i][j] * w;
+                    double w = exp(w_difference_squared);
+                    zeta += w;
+                    output_image[i][j] += input_image[i][j] * w;
+                    if(i == 5 && j == 5 && output_image[i][j] > 0) {
+                        printf("w: %f output_image[5][5]: %f\n", w, output_image[i][j]);
+                    }
                 }
             }
+            output_image[i][j] = output_image[i][j] / zeta;
         }
     }
     return output_image;
@@ -124,13 +126,14 @@ int main() {
         }        
     }
 
-    normalized_denoised_2D = non_local_means(normalized_noisy_2D, patchsize, 0.01, 0.01, width, height);
+    normalized_denoised_2D = non_local_means(normalized_noisy_2D, patchsize, 0.02, 1.66, width, height);
 
     /* Denormalize and map into 1D the denoised image */
     int counter = 0;
     for(int i = 0; i < height; i++) {
         for(int j = 0; j < width; j++) {
             denoised_image[counter++] = normalized_denoised_2D[i][j] * 255;
+            // denoised_image[counter++] = normalized_denoised_2D[i][j] * 0;
         }
     }
 
