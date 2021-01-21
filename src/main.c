@@ -33,7 +33,7 @@ double AWGN_generator2()
   double temp2;
   double result;
   int p;
-  double noise_sigma = 0.01;
+  double noise_sigma = 0.05;
 
   p = 1;
 
@@ -69,7 +69,7 @@ int main() {
     /* Intializes random number generator */
    srand((unsigned) time(&t));
 
-    uint8_t* original_image = stbi_load("../images/mpezos.jpg", &width, &height, &bpp, 1);
+    uint8_t* original_image = stbi_load("../images/musk.jpg", &width, &height, &bpp, 1);
     double* normalized_image = (double *)malloc(width * height * sizeof(double));
     double* noisy_image = (double *)malloc(width * height * sizeof(double));
     uint8_t* noisy_image_for_save = (uint8_t *)malloc(width * height * sizeof(uint8_t));
@@ -78,6 +78,9 @@ int main() {
     for(int i = 0; i < width * height; i++) {
         normalized_image[i] = (double)original_image[i] / (double)(MAX_IMAGE_VALUE - MIN_IMAGE_VALUE + 1);
         noisy_image[i] = normalized_image[i] + AWGN_generator2();
+        if(noisy_image[i] > 1) {
+            noisy_image[i] = 1;
+        }
     }
 
     /* Denormalize and Save the noisy image */
@@ -85,10 +88,11 @@ int main() {
         noisy_image_for_save[i] = (uint8_t)(noisy_image[i] * 255);
     }
     
-    stbi_write_jpg("../images/noisy_boat.jpg", width, height, 1, original_image, 1);
+    stbi_write_jpg("../images/musk_black_white.jpg", width, height, 1, original_image, 0);
+    stbi_write_jpg("../images/noisy_image.jpg", width, height, 1, noisy_image_for_save, 0);
 
-    printf("%d \n", noisy_image_for_save[1000]);
-    printf("%d \n", original_image[1000]);
+    printf("%d \n", noisy_image_for_save[1]);
+    printf("%d \n", original_image[1]);
 
     stbi_image_free(original_image);
     free(noisy_image_for_save);
