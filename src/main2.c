@@ -112,7 +112,8 @@ int main() {
     
     stbi_write_jpg("../images/noisy_image.jpg", width, height, CHANNEL_NUM, original_image, 1);
 
-    uint8_t* noisy_image = stbi_load("../images/noisy_image.jpg", &width, &height, &bpp, CHANNEL_NUM);
+    // uint8_t* noisy_image = stbi_load("../images/noisy_image.jpg", &width, &height, &bpp, CHANNEL_NUM);
+    uint8_t* noisy_image = original_image;
 
     /* Image Normalization and Noise Addition*/
     for(int i = 0; i < width * height; i++) {
@@ -141,7 +142,7 @@ int main() {
 
 
     stbi_image_free(original_image);
-    stbi_image_free(noisy_image);
+    // stbi_image_free(noisy_image);
 
     return 0;
 }
