@@ -164,8 +164,12 @@ int main() {
     for(int i = 0; i < width * height; i++) {
         normalized_image[i] = (double)original_image[i] / (double)(MAX_IMAGE_VALUE - MIN_IMAGE_VALUE + 1);
         noisy_image[i] = normalized_image[i] + AWGN_generator2();
+        /* Fix black and white bullets */
         if(noisy_image[i] > 1) {
             noisy_image[i] = 1;
+        }
+        if(noisy_image[i] < 0) {
+            noisy_image[i] = 0;
         }
     }
 
