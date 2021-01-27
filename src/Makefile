@@ -12,6 +12,9 @@ main: main.c
 
 main2: main2.c
 	$(CC) $< -o ../out/$@ -lm
+
+test: test.c
+	$(CC) $< -o ../out/$@ -lm
 	
 clean:
 	$(RM) *.o *~ $(EXECUTABLES)
