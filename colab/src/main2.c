@@ -48,10 +48,6 @@ double AWGN_generator2()
     return result * noise_sigma; // return the generated random sample to the caller
 }
 
-__global__ pixel_algorithm(double **input_image, double **output_image, double *pixel_patch, int width, int height, int patchsize) {
-
-}
-
 double **non_local_means(double **input_image, int patchsize, double filter_sigma, double patch_sigma, int width, int height)
 {
     double **output_image = (double **)malloc(height * sizeof(double *));
@@ -85,7 +81,7 @@ double **non_local_means(double **input_image, int patchsize, double filter_sigm
             /* Initialize the ouput image value to zero */
             output_image[i][j] = 0;
             double zeta = 0;
-            dim3 dimBlock(height - patchsize, width - patchsize)
+            double zeta2 = 0;
             /* Comparison patch (we take into account ourselves too) */
             for (int m = patchsize / 2; m < height - patchsize / 2; m++)
             {
