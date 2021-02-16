@@ -13,20 +13,20 @@
 #define MIN_IMAGE_VALUE 0
 #define PI 3.1415926536
 
-double AWGN_generator2()
+float AWGN_generator2()
 { /* Generates additive white Gaussian Noise samples with zero mean and a standard deviation of 1. */
 
-    double temp1;
-    double temp2;
-    double result;
+    float temp1;
+    float temp2;
+    float result;
     int p;
-    double noise_sigma = 0.02;
+    float noise_sigma = 0.02;
 
     p = 1;
 
     while (p > 0)
     {
-        temp2 = (rand() / ((double)RAND_MAX)); /*  rand() function generates an
+        temp2 = (rand() / ((float)RAND_MAX)); /*  rand() function generates an
                                                        integer between 0 and  RAND_MAX,
                                                        which is defined in stdlib.h.
                                                    */
@@ -42,28 +42,28 @@ double AWGN_generator2()
 
     } // end while()
 
-    temp1 = cos((2.0 * (double)PI) * rand() / ((double)RAND_MAX));
+    temp1 = cos((2.0 * (float)PI) * rand() / ((float)RAND_MAX));
     result = sqrt(-2.0 * log(temp2)) * temp1;
 
     return result * noise_sigma; // return the generated random sample to the caller
 }
 
-// __global__ pixel_algorithm(double *input_image, double *output_image, double *pixel_patch, int width, int height, int patchsize) {
+// __global__ pixel_algorithm(float *input_image, float *output_image, float *pixel_patch, int width, int height, int patchsize) {
 
 // }
 
-double *non_local_means(double *input_image, int patchsize, double filter_sigma, double patch_sigma, int width, int height)
+float *non_local_means(float *input_image, int patchsize, float filter_sigma, float patch_sigma, int width, int height)
 {
-    double *output_image = (double *)malloc(height * width * sizeof(double));
+    float *output_image = (float *)malloc(height * width * sizeof(float));
 
-    double *output_image_gpu;
-    cudaMalloc(&output_image_gpu, height * width * sizeof(double));
+    float *output_image_gpu;
+    cudaMalloc(&output_image_gpu, height * width * sizeof(float));
 
-    double *input_image_gpu;
-    cudaMalloc(&input_image_gpu, height * width * sizeof(double));
+    float *input_image_gpu;
+    cudaMalloc(&input_image_gpu, height * width * sizeof(float));
 
-    cudaMemcpy(output_image_gpu, output_image, height * width * sizeof(double), cudaMemcpyHostToDevice);
-    cudaMemcpy(input_image_gpu, input_image, height * width * sizeof(double), cudaMemcpyHostToDevice);
+    cudaMemcpy(output_image_gpu, output_image, height * width * sizeof(float), cudaMemcpyHostToDevice);
+    cudaMemcpy(input_image_gpu, input_image, height * width * sizeof(float), cudaMemcpyHostToDevice);
 
     /* Loop for each pixel that is inside the patchsize limits */
     for (int i = patchsize / 2; i < height - patchsize / 2; i++)
@@ -71,9 +71,9 @@ double *non_local_means(double *input_image, int patchsize, double filter_sigma,
         for (int j = patchsize / 2; j < width - patchsize / 2; j++)
         {
             /* Create the patchsize * patchsize grid with the selected pixel at the centre */
-            double *pixel_patch = (double *)malloc(patchsize * patchsize * sizeof(double));
-            double *pixel_patch_gpu;
-            cudaMalloc(&pixel_patch_gpu, patchsize * patchsize * sizeof(double));
+            float *pixel_patch = (float *)malloc(patchsize * patchsize * sizeof(float));
+            float *pixel_patch_gpu;
+            cudaMalloc(&pixel_patch_gpu, patchsize * patchsize * sizeof(float));
             int counter_i = 0;
             for (int k = -patchsize / 2; k < patchsize / 2 + 1; k++)
             {
@@ -85,11 +85,11 @@ double *non_local_means(double *input_image, int patchsize, double filter_sigma,
                 }
                 counter_i++;
             }
-            cudaMemcpy(pixel_patch_gpu, pixel_patch, patchsize * patchsize * sizeof(double), cudaMemcpyHostToDevice);
+            cudaMemcpy(pixel_patch_gpu, pixel_patch, patchsize * patchsize * sizeof(float), cudaMemcpyHostToDevice);
 
             /* Initialize the ouput image value to zero */
             output_image[i * width + j] = 0;
-            double zeta = 0;
+            float zeta = 0;
             // /* Copy the cpu data to gpu data */
             // /* Initialize grid and block size before invoking the function */
             // dim3 dimBlock(height - patchsize, width - patchsize);
@@ -101,7 +101,7 @@ double *non_local_means(double *input_image, int patchsize, double filter_sigma,
                 for (int n = patchsize / 2; n < width - patchsize / 2; n++)
                 {
                     /* Create the patchsize * patchsize grid with the selected pixel at the centre */
-                    double *comparison_patch = (double *)malloc(patchsize * patchsize * sizeof(double));
+                    float *comparison_patch = (float *)malloc(patchsize * patchsize * sizeof(float));
                     int counter_i = 0;
                     for (int k = -patchsize / 2; k < patchsize / 2 + 1; k++)
                     {
@@ -115,23 +115,23 @@ double *non_local_means(double *input_image, int patchsize, double filter_sigma,
                     }
 
                     /* Here we should implement the f algorithm */
-                    double difference_squared = 0;
+                    float difference_squared = 0;
                     for (int a = 0; a < patchsize; a++)
                     {
                         for (int b = 0; b < patchsize; b++)
                         {
-                            double distX = (a - patchsize / 2) * (a - patchsize / 2);
-                            double distY = (b - patchsize / 2) * (b - patchsize / 2);
-                            double dist = -(distX + distY) / (patch_sigma * patch_sigma);
+                            float distX = (a - patchsize / 2) * (a - patchsize / 2);
+                            float distY = (b - patchsize / 2) * (b - patchsize / 2);
+                            float dist = -(distX + distY) / (patch_sigma * patch_sigma);
                             dist = exp(dist);
 
                             difference_squared += dist * (pixel_patch[a * (patchsize / 2) + b] - comparison_patch[a * (patchsize / 2) + b]) * (pixel_patch[a * (patchsize / 2) + b] - comparison_patch[a * (patchsize / 2) + b]);
                         }
                     }
 
-                    double w_difference_squared = -difference_squared / (filter_sigma * filter_sigma);
+                    float w_difference_squared = -difference_squared / (filter_sigma * filter_sigma);
 
-                    double w = exp(w_difference_squared);
+                    float w = exp(w_difference_squared);
                     zeta += w;
 
                     output_image[i * width + j] += input_image[m * width + n] * w;
@@ -154,21 +154,21 @@ int main()
     srand((unsigned)time(&t));
 
     uint8_t *original_image = stbi_load("../images/musk.jpg", &width, &height, &bpp, 1);
-    double *normalized_image = (double *)malloc(width * height * sizeof(double));
-    double *noisy_image = (double *)malloc(width * height * sizeof(double));
-    double *denoised_image_float = (double *)malloc(width * height * sizeof(double));
+    float *normalized_image = (float *)malloc(width * height * sizeof(float));
+    float *noisy_image = (float *)malloc(width * height * sizeof(float));
+    float *denoised_image_float = (float *)malloc(width * height * sizeof(float));
     uint8_t *noisy_image_for_save = (uint8_t *)malloc(width * height * sizeof(uint8_t));
 
-    // double **normalized_noisy_2D = (double **)malloc(height * sizeof(double *));
+    // float **normalized_noisy_2D = (float **)malloc(height * sizeof(float *));
     // for (int i = 0; i < height; i++)
     // {
-    //     normalized_noisy_2D[i] = (double *)malloc(width * sizeof(double));
+    //     normalized_noisy_2D[i] = (float *)malloc(width * sizeof(float));
     // }
 
-    // double **normalized_denoised_2D = (double **)malloc(height * sizeof(double *));
+    // float **normalized_denoised_2D = (float **)malloc(height * sizeof(float *));
     // for (int i = 0; i < height; i++)
     // {
-    //     normalized_denoised_2D[i] = (double *)malloc(width * sizeof(double));
+    //     normalized_denoised_2D[i] = (float *)malloc(width * sizeof(float));
     // }
 
     uint8_t *denoised_image = (uint8_t *)malloc(width * height * sizeof(uint8_t));
@@ -176,7 +176,7 @@ int main()
     /* Image Normalization and Noise Addition*/
     for (int i = 0; i < width * height; i++)
     {
-        normalized_image[i] = (double)original_image[i] / (double)(MAX_IMAGE_VALUE - MIN_IMAGE_VALUE + 1);
+        normalized_image[i] = (float)original_image[i] / (float)(MAX_IMAGE_VALUE - MIN_IMAGE_VALUE + 1);
         noisy_image[i] = normalized_image[i] + AWGN_generator2();
         //noisy_image[i] = normalized_image[i];
         if (noisy_image[i] > 1)
