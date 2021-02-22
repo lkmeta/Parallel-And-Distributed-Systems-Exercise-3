@@ -75,7 +75,7 @@ __global__ void pixel_algorithm(float *input_image_gpu, float *output_image_gpu,
         int counter_j = 0;
         for (int l = -patchsize / 2; l < patchsize / 2 + 1; l++)
         {
-            pixel_patch_gpu[counter_i * (patchsize) + counter_j] = input_image_gpu[(i + k) * width + (j + l)];
+            pixel_patch_gpu[ix * (patchsize * patchsize) + counter_i * (patchsize) + counter_j] = input_image_gpu[(i + k) * width + (j + l)];
             counter_j++;
         }
         counter_i++;
@@ -96,7 +96,7 @@ __global__ void pixel_algorithm(float *input_image_gpu, float *output_image_gpu,
                 int counter_j = 0;
                 for (int l = -patchsize / 2; l < patchsize / 2 + 1; l++)
                 {
-                    comparison_patch_gpu[counter_i * (patchsize) + counter_j] = input_image_gpu[(m + k) * width + (n + l)];
+                    comparison_patch_gpu[ix * (patchsize * patchsize) + counter_i * (patchsize) + counter_j] = input_image_gpu[(m + k) * width + (n + l)];
                     counter_j++;
                 }
                 counter_i++;
@@ -113,7 +113,7 @@ __global__ void pixel_algorithm(float *input_image_gpu, float *output_image_gpu,
                     float dist = -(distX + distY) / (patch_sigma * patch_sigma);
                     dist = exp(dist);
                     //used to be patchsize / 2 but could not remember why so i reverted it
-                    difference_squared += dist * (pixel_patch_gpu[a * (patchsize) + b] - comparison_patch_gpu[a * (patchsize) + b]) * (pixel_patch_gpu[a * (patchsize) + b] - comparison_patch_gpu[a * (patchsize) + b]);
+                    difference_squared += dist * (pixel_patch_gpu[ix * (patchsize * patchsize) + a * (patchsize) + b] - comparison_patch_gpu[ix * (patchsize * patchsize) + a * (patchsize) + b]) * (pixel_patch_gpu[ix * (patchsize * patchsize) + a * (patchsize) + b] - comparison_patch_gpu[ix * (patchsize * patchsize) + a * (patchsize) + b]);
                 }
             }
 
@@ -140,10 +140,10 @@ float *non_local_means(float *input_image, int patchsize, float filter_sigma, fl
     cudaMalloc(&input_image_gpu, height * width * sizeof(float));
 
     float *pixel_patch_gpu;
-    cudaMalloc(&pixel_patch_gpu, patchsize * patchsize * sizeof(float));
+    cudaMalloc(&pixel_patch_gpu, width * height * patchsize * patchsize * sizeof(float));
 
     float *comparison_patch_gpu;
-    cudaMalloc(&comparison_patch_gpu, patchsize * patchsize * sizeof(float));
+    cudaMalloc(&comparison_patch_gpu, width * height * patchsize * patchsize * sizeof(float));
 
     // cudaMemcpy(output_image_gpu, output_image, height * width * sizeof(float), cudaMemcpyHostToDevice); // This might be useless in the beggining
     cudaMemcpy(input_image_gpu, input_image, height * width * sizeof(float), cudaMemcpyHostToDevice);
