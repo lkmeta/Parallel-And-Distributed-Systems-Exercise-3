@@ -117,7 +117,7 @@ double *non_local_means(double *input_image, int patchsize, double filter_sigma,
                             double dist = -(distX + distY) / (patch_sigma * patch_sigma);
                             dist = exp(dist);
 
-                            difference_squared += dist * (pixel_patch[a * (patchsize / 2) + b] - comparison_patch[a * (patchsize / 2) + b]) * (pixel_patch[a * (patchsize / 2) + b] - comparison_patch[a * (patchsize / 2) + b]);
+                            difference_squared += dist * (pixel_patch[a * (patchsize) + b] - comparison_patch[a * (patchsize) + b]) * (pixel_patch[a * (patchsize) + b] - comparison_patch[a * (patchsize) + b]);
                         }
                     }
 
