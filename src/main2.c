@@ -123,8 +123,8 @@ int main(int argc, char **argv) {
 
     char *image_file_name = argv[1];
     char buf[512];
-    float filter_signa = atoi(argv[3]); // 0.2
-    float patch_sigma = atoi(argv[4]); // 1.67
+    float filter_signa = atof(argv[3]); // 0.2
+    float patch_sigma = atof(argv[4]); // 1.67
     
 
     /* Intializes random number generator */
@@ -178,7 +178,16 @@ int main(int argc, char **argv) {
         }
     }
 
+    // Start measuring time
+    clock_t begin = clock();
+
     normalized_denoised_2D = non_local_means(normalized_noisy_2D, patchsize, filter_signa, patch_sigma, width, height);
+
+    // Stop measuring time  
+    clock_t end = clock();
+    double duration = (double)(end - begin) / CLOCKS_PER_SEC;
+
+    printf("Duration: %f\n", duration);
 
     /* Denormalize and map into 1D the denoised image */
     int counter = 0;
