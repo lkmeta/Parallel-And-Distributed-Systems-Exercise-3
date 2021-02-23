@@ -155,92 +155,88 @@ float *non_local_means(float *input_image, int patchsize, float filter_sigma, fl
     return output_image;
 }
 
-int main()
-{
+int main(int argc, char **argv) {
     int width, height, bpp;
-    int patchsize = 3;
+    int patchsize = atoi(argv[2]);
     time_t t;
+
+    char *image_file_name = argv[1];
+    char buf[512];
+    float filter_signa = atof(argv[3]); // 0.2
+    float patch_sigma = atof(argv[4]); // 1.67
+    
 
     /* Intializes random number generator */
     srand((unsigned)time(&t));
 
-    uint8_t *original_image = stbi_load("../images/musk.jpg", &width, &height, &bpp, 1);
+    uint8_t *original_image = stbi_load(image_file_name, &width, &height, &bpp, 1);
     float *normalized_image = (float *)malloc(width * height * sizeof(float));
     float *noisy_image = (float *)malloc(width * height * sizeof(float));
-    float *denoised_image_float = (float *)malloc(width * height * sizeof(float));
     uint8_t *noisy_image_for_save = (uint8_t *)malloc(width * height * sizeof(uint8_t));
 
-    // float **normalized_noisy_2D = (float **)malloc(height * sizeof(float *));
-    // for (int i = 0; i < height; i++)
-    // {
-    //     normalized_noisy_2D[i] = (float *)malloc(width * sizeof(float));
-    // }
+    float **normalized_noisy_2D = (float **)malloc(height * sizeof(float *));
+    for (int i = 0; i < height; i++) {
+        normalized_noisy_2D[i] = (float *)malloc(width * sizeof(float));
+    }
 
-    // float **normalized_denoised_2D = (float **)malloc(height * sizeof(float *));
-    // for (int i = 0; i < height; i++)
-    // {
-    //     normalized_denoised_2D[i] = (float *)malloc(width * sizeof(float));
-    // }
+    float **normalized_denoised_2D = (float **)malloc(height * sizeof(float *));
+    for (int i = 0; i < height; i++) {
+        normalized_denoised_2D[i] = (float *)malloc(width * sizeof(float));
+    }
 
     uint8_t *denoised_image = (uint8_t *)malloc(width * height * sizeof(uint8_t));
 
     /* Image Normalization and Noise Addition*/
-    for (int i = 0; i < width * height; i++)
-    {
+    for (int i = 0; i < width * height; i++) {
         normalized_image[i] = (float)original_image[i] / (float)(MAX_IMAGE_VALUE - MIN_IMAGE_VALUE + 1);
         noisy_image[i] = normalized_image[i] + AWGN_generator2();
         //noisy_image[i] = normalized_image[i];
-        if (noisy_image[i] > 1)
-        {
+        if (noisy_image[i] > 1) {
             noisy_image[i] = 1;
         }
 
-        if (noisy_image[i] < 0)
-        {
+        if (noisy_image[i] < 0) {
             noisy_image[i] = 0;
         }
     }
 
     /* Denormalize and Save the noisy image */
-    for (int i = 0; i < width * height; i++)
-    {
+    for (int i = 0; i < width * height; i++) {
         noisy_image_for_save[i] = (uint8_t)(noisy_image[i] * 255);
     }
 
-    stbi_write_jpg("../images/fight_black_white.jpg", width, height, 1, original_image, 0);
-    stbi_write_jpg("../images/noisy_image.jpg", width, height, 1, noisy_image_for_save, 0);
+    snprintf(buf, sizeof buf, "%s%s_%s", "../images/", image_file_name, "black_white.jpg");
+    stbi_write_jpg(buf, width, height, 1, original_image, 0);
+    snprintf(buf, sizeof buf, "%s%s_%s", "../images/", image_file_name, "noisy.jpg");
+    stbi_write_jpg(buf, width, height, 1, noisy_image_for_save, 0);
 
-    // /* Map to 2D */
-    // for (int i = 0; i < height; i++)
-    // {
-    //     for (int j = 0; j < width; j++)
-    //     {
-    //         normalized_noisy_2D[i][j] = noisy_image[i * width + j];
-    //     }
-    // }
-
-    denoised_image_float = non_local_means(noisy_image, patchsize, 0.2, 1.67, width, height);
-
-    /* Denormalize and Save the denoised image */
-    for (int i = 0; i < width * height; i++)
-    {
-        denoised_image[i] = (uint8_t)(denoised_image_float[i] * 255);
+    /* Map to 2D */
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
+            normalized_noisy_2D[i][j] = noisy_image[i * width + j];
+        }
     }
 
-    // /* Denormalize and map into 1D the denoised image */
-    // int counter = 0;
-    // for (int i = 0; i < height; i++)
-    // {
-    //     for (int j = 0; j < width; j++)
-    //     {
-    //         denoised_image[counter++] = normalized_denoised_2D[i][j] * 255;
-    //         // denoised_image[counter++] = normalized_denoised_2D[i][j] * 0;
-    //     }
-    // }
+    // Start measuring time
+    clock_t begin = clock();
 
-    stbi_write_jpg("../images/denoised_image.jpg", width, height, CHANNEL_NUM, denoised_image, 0);
-    
-    printf("Width: %d\nHeight: %d\nTotal Kernels", width, height, width * height);
+    normalized_denoised_2D = non_local_means(normalized_noisy_2D, patchsize, filter_signa, patch_sigma, width, height);
+
+    // Stop measuring time  
+    clock_t end = clock();
+    double duration = (double)(end - begin) / CLOCKS_PER_SEC;
+
+    printf("Duration: %f\n", duration);
+
+    /* Denormalize and map into 1D the denoised image */
+    int counter = 0;
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
+            denoised_image[counter++] = normalized_denoised_2D[i][j] * 255;
+        }
+    }
+    snprintf(buf, sizeof buf, "%s%s_%s", "../images/", image_file_name, "denoised.jpg");
+    stbi_write_jpg(buf, width, height, CHANNEL_NUM, denoised_image, 0);
 
     stbi_image_free(original_image);
     free(noisy_image_for_save);
