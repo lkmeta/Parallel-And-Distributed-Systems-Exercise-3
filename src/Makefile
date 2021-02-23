@@ -3,7 +3,7 @@ SHELL := /bin/bash
 CC = gcc -O3
 RM = rm -f
 
-EXECUTABLES = main main2
+EXECUTABLES = main main2 main_cuda
 
 all: $(EXECUTABLES)
 
