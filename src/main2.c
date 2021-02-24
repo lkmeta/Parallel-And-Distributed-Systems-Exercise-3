@@ -145,6 +145,7 @@ int main(int argc, char **argv) {
         normalized_denoised_2D[i] = (float *)malloc(width * sizeof(float));
     }
 
+    uint8_t *noise_subtracted_image = (uint8_t *)malloc(width * height * sizeof(uint8_t));
     uint8_t *denoised_image = (uint8_t *)malloc(width * height * sizeof(uint8_t));
 
     /* Image Normalization and Noise Addition*/
@@ -196,6 +197,19 @@ int main(int argc, char **argv) {
             denoised_image[counter++] = normalized_denoised_2D[i][j] * 255;
         }
     }
+
+    /* Calculate the Noise subtraction */
+    counter = 0;
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
+            noise_subtracted_image[counter] = 128 + (noisy_image_for_save[counter] - denoised_image[counter]);
+            counter++;
+        }
+    }
+
+    snprintf(buf, sizeof buf, "%s%s_%s", "../images/", image_file_name, "noise_subtracted.jpg");
+    stbi_write_jpg(buf, width, height, CHANNEL_NUM, noise_subtracted_image, 0);
+
     snprintf(buf, sizeof buf, "%s%s_%s", "../images/", image_file_name, "denoised.jpg");
     stbi_write_jpg(buf, width, height, CHANNEL_NUM, denoised_image, 0);
 
