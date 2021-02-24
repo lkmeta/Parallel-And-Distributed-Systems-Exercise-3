@@ -167,9 +167,9 @@ int main(int argc, char **argv) {
         noisy_image_for_save[i] = (uint8_t)(noisy_image[i] * 255);
     }
 
-    snprintf(buf, sizeof buf, "%s%s_%s", "../images/", image_file_name, "black_white.jpg");
+    snprintf(buf, sizeof buf, "%s%s_%d_%s", "../images/", image_file_name, patchsize, "black_white.jpg");
     stbi_write_jpg(buf, width, height, 1, original_image, 0);
-    snprintf(buf, sizeof buf, "%s%s_%s", "../images/", image_file_name, "noisy.jpg");
+    snprintf(buf, sizeof buf, "%s%s_%d_%s", "../images/", image_file_name, patchsize, "noisy.jpg");
     stbi_write_jpg(buf, width, height, 1, noisy_image_for_save, 0);
 
     /* Map to 2D */
@@ -207,10 +207,10 @@ int main(int argc, char **argv) {
         }
     }
 
-    snprintf(buf, sizeof buf, "%s%s_%s", "../images/", image_file_name, "noise_subtracted.jpg");
+    snprintf(buf, sizeof buf, "%s%s_%d_%s", "../images/", image_file_name, patchsize, "noise_subtracted.jpg");
     stbi_write_jpg(buf, width, height, CHANNEL_NUM, noise_subtracted_image, 0);
 
-    snprintf(buf, sizeof buf, "%s%s_%s", "../images/", image_file_name, "denoised.jpg");
+    snprintf(buf, sizeof buf, "%s%s_%d_%s", "../images/", image_file_name, patchsize, "denoised.jpg");
     stbi_write_jpg(buf, width, height, CHANNEL_NUM, denoised_image, 0);
 
     stbi_image_free(original_image);
