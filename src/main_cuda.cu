@@ -126,7 +126,7 @@ __global__ void pixel_algorithm(float *input_image_gpu, float *output_image_gpu,
         }
     }
     output_image_gpu[i * width + j] = output_image_gpu[i * width + j] / zeta;
-    printf("%d\t i: %d\t j: %d\t output_image_gpu[%d]: %f\n", ix, i , j, i * width + j, output_image_gpu[i * width + j]);
+    // printf("%d\t i: %d\t j: %d\t output_image_gpu[%d]: %f\n", ix, i , j, i * width + j, output_image_gpu[i * width + j]);
 }
 
 float *non_local_means(float *input_image, int patchsize, float filter_sigma, float patch_sigma, int width, int height)
@@ -186,7 +186,8 @@ int main(int argc, char **argv)
     // {
     //     normalized_denoised_2D[i] = (float *)malloc(width * sizeof(float));
     // }
-
+    
+    uint8_t *noise_subtracted_image = (uint8_t *)malloc(width * height * sizeof(uint8_t));
     uint8_t *denoised_image = (uint8_t *)malloc(width * height * sizeof(uint8_t));
 
     /* Image Normalization and Noise Addition*/
@@ -212,9 +213,9 @@ int main(int argc, char **argv)
         noisy_image_for_save[i] = (uint8_t)(noisy_image[i] * 255);
     }
 
-    snprintf(buf, sizeof buf, "%s%s_%s", "../images/", image_file_name, "black_white.jpg");
+    snprintf(buf, sizeof buf, "%s%s_%d_%s", "../images/", image_file_name, patchsize, "black_white.jpg");
     stbi_write_jpg(buf, width, height, 1, original_image, 0);
-    snprintf(buf, sizeof buf, "%s%s_%s", "../images/", image_file_name, "noisy.jpg");
+    snprintf(buf, sizeof buf, "%s%s_%d_%s", "../images/", image_file_name, patchsize, "noisy.jpg");
     stbi_write_jpg(buf, width, height, 1, noisy_image_for_save, 0);
 
     // /* Map to 2D */
@@ -243,7 +244,16 @@ int main(int argc, char **argv)
         denoised_image[i] = (uint8_t)(denoised_image_float[i] * 255);
     }
 
-    snprintf(buf, sizeof buf, "%s%s_%s", "../images/", image_file_name, "denoised.jpg");
+    /* Calculate the Noise subtraction */
+    for (int i = 0; i < width * height; i++)
+    {
+        noise_subtracted_image[i] = 128 + (noisy_image_for_save[i] - denoised_image[i]);
+    }
+
+    snprintf(buf, sizeof buf, "%s%s_%d_%s", "../images/", image_file_name, patchsize, "noise_subtracted.jpg");
+    stbi_write_jpg(buf, width, height, CHANNEL_NUM, noise_subtracted_image, 0);
+
+    snprintf(buf, sizeof buf, "%s%s_%d_%s", "../images/", image_file_name, patchsize, "denoised.jpg");
     stbi_write_jpg(buf, width, height, CHANNEL_NUM, denoised_image, 0);
 
     // /* Denormalize and map into 1D the denoised image */
