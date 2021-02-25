@@ -16,8 +16,7 @@ Taskbar
 # Parallel and Distributed Systems
 ##     Marios Pakas			        Kosmas Meta
 ## mariospakas@ece.auth.gr		-@ece.auth.gr	
-## 9498	
-					-
+## 9498	                        9390
 https://github.com/Mavioux/Parallel-And-Distributed-Systems-Exercise-3
 
 ## Exercise 2
@@ -39,7 +38,10 @@ So as to speed up the calculation of the value of each pixel, parallel programmi
 
 
 # Sources:
+
 [1] Image Manipulation Library: https://github.com/nothings/stb/
+
 [2] AWGN: https://www.embeddedrelated.com/showcode/311.php
+
 [3] Extra PDF on NonLocal Image Algorithm: https://hal.archives-ouvertes.fr/hal-00271147/PDF/ijcvrevised.pdf
 
