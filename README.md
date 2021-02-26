@@ -65,6 +65,13 @@ Firstly, we see the file we use as input in our functions. The second image show
 <a name="3"></a>
 ### **Graphs** 
 
+Serial Implemention using only CPU
+|     | 3      | 5      | 7      |
+|:---:| :---:  | :---:  | :---:  |
+| 64  | 6,57   | 12,61  | 20,97  |
+| 128 | 111,28 | 240,43 |        |
+| 256 |        |        |        |
+
 TODO
 
 
