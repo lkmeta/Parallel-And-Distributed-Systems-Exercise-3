@@ -57,7 +57,7 @@ We used different time durations for these scripts to compute the [results](TODO
 
 **_Code Validation_**  
 The correctness of the sequential and the parallel code for the Non Local Means algorithm we used can be easily verified by observing the following images. 
-Firstly, we see the file we use as input in our functions. The second image shows the same image but in black and white. Next we add some [```AWGN```](https://en.wikipedia.org/wiki/Additive_white_Gaussian_noise) which is shown in the 3rd one. Finally, we use the algorithm and we remove the Gaussian Noise as you can notice in the 4th image. The last image shows the subtracted noise.
+Firstly, we see the file we use as input in our functions. The second image shows the same image but in black and white. Then with the appropriate function we add [AWGN](https://en.wikipedia.org/wiki/Additive_white_Gaussian_noise) as you can distinguish from the 3rd one. Finally, we use the algorithm and we remove the Gaussian Noise as you can notice in the 4th image. The last image shows the subtracted noise.
 
 ![Elon Musk](https://github.com/Mavioux/Parallel-And-Distributed-Systems-Exercise-3/blob/main/images/musk_final.jpg)  
 
