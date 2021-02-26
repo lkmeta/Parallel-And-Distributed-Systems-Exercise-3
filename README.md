@@ -29,8 +29,8 @@ Taskbar
 **File ```Makefile```:**  
    + Use command line ```make main``` to build main function with C.
    + Use command line ```make cuda``` to build main function with C.
-   + Use command line ```make testMain``` to test sequential code with an image (Elon Musk image 64px with patch_size = 5 filter_sigma = 0.2 and patch_sigma = 1.67). 
-   + Use command line ```make testCuda``` to test parallel code with an image (Elon Musk image 128px with patch_size = 7 filter_sigma = 0.2 and patch_sigma = 1.67). 
+   + Use command line ```make testMain``` to test sequential code with an image (Elon Musk image 64px with patch size 5px, filter sigma value 0.2 and patch sigma value 1.67). 
+   + Use command line ```make testCuda``` to test parallel code with an image (Elon Musk image 128px with patch size 7px, filter sigma value 0.2 and patch sigma value 1.67). 
    
 **Examples:**  
 To run the functions you should contain 4 arguments.  
@@ -57,9 +57,9 @@ We used different time durations for these scripts to compute the [results](TODO
 
 **_Code Validation_**  
 The correctness of the sequential and the parallel code for the Non Local Means algorithm we used can be easily verified by observing the following images. 
-Firstly, we see the file we use as input in our functions. The second image shows the same image but in black and white. Next we add some [```AWGN```](TODO) which is shown in the 3rd one. Finally, we use the algorithm and we remove the Gaussian Noise as you can notice in the 4th image. The last image shows the subtracted noise.
+Firstly, we see the file we use as input in our functions. The second image shows the same image but in black and white. Next we add some [```AWGN```](https://en.wikipedia.org/wiki/Additive_white_Gaussian_noise) which is shown in the 3rd one. Finally, we use the algorithm and we remove the Gaussian Noise as you can notice in the 4th image. The last image shows the subtracted noise.
 
-TODO image
+![Elon Musk](https://github.com/Mavioux/Parallel-And-Distributed-Systems-Exercise-3/blob/main/images/musk_final.jpg)  
 
 ---
 <a name="3"></a>
