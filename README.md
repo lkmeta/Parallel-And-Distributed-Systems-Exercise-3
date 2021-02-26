@@ -70,7 +70,7 @@ TODO
 
 ### Helpful functions
 
-In order to manipulate images in c, a library found on github was used that enabled image loading and storing in 1D arrays. For the addition of white gaussian noise to the original image, the box-muller algorithm was used. There were two awgn_generator functions created, one was our own implementation, and the second one was a function found on a site[2]. Since the second function seemed to provide better noisy images, we proceeded  with that implementation.
+In order to manipulate images in c, a library found on github was used that enabled image loading and storing in 1D arrays<sup>[1]</sup>. For the addition of white gaussian noise to the original image, the box-muller algorithm was used. There were two awgn_generator functions created, one was our own implementation, and the second one was a function found on a site<sup>[2]</sup>. Since the second function seemed to provide better noisy images, we proceeded  with that implementation.
 
 ### NonLocal Image Algorithm
 
