@@ -42,16 +42,16 @@ If you want to run a function with one of the files that already in images folde
 <a name="2"></a>
 ### **Results from HPC** 
 
-**Note:** We used the following [Scripts](TODO) in AUTh High Performance Computing (HPC) infrastructure to test our code.  
+**Note:** We used the following [Scripts](https://github.com/Mavioux/Parallel-And-Distributed-Systems-Exercise-3/tree/main/scripts) in AUTh High Performance Computing (HPC) infrastructure to test our code.  
 We used different time durations for these scripts to compute the [results](TODO) for the tested files. 
 
-**Script [```sequential.sh```](TODO):**
-   + calculates Non Local Means using sequential C code with the files for the following combinations of patch size values
+**Script [```sequential.sh```](https://github.com/Mavioux/Parallel-And-Distributed-Systems-Exercise-3/blob/main/scripts/sequential.sh):**
+   + calculates Non Local Means using sequential C code with two images (Elon Musk and Bitcoin) for the following combinations of patch size values
    + patch size values: 3 5 7
    + creates the directory results and outputs for sequential code
 
-**Script [```parallel.sh```](TODO):**
-   + calculates Non Local Means using paraller Cuda code with the files for the following combinations of patch size values
+**Script [```parallel.sh```](https://github.com/Mavioux/Parallel-And-Distributed-Systems-Exercise-3/blob/main/scripts/parallel.sh):**
+   + calculates Non Local Means using paraller Cuda code with two images (Elon Musk and Bitcoin) for the following combinations of patch size values
    + patch size values: 3 5 7
    + creates the directory results and outputs for parallel code
 
