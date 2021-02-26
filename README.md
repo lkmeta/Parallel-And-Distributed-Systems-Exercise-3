@@ -72,6 +72,13 @@ Serial Implemention using only CPU
 | 128 | 111,28 | 240,43 |        |
 | 256 |        |        |        |
 
+Parallel Implemention using CUDA
+|     | 3      | 5      | 7      |
+|:---:| :---:  | :---:  | :---:  |
+| 64  | 0,14   | 0,18   | 0,23   |
+| 128 | 0,37   | 1,14   | 2,75   |
+| 256 | 5,52   | 39,23  | 122,25 |
+
 TODO
 
 
