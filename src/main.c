@@ -50,14 +50,20 @@ float **non_local_means(float **input_image, int patchsize, float filter_sigma, 
         output_image[i] = (float *)malloc(width * sizeof(float));
     }
 
+    float **pixel_patch = (float **)malloc(patchsize * sizeof(float *));
+    for (int i = 0; i < patchsize; i++) {
+        pixel_patch[i] = (float *)malloc(patchsize * sizeof(float));
+    }
+
+    float **comparison_patch = (float **)malloc(patchsize * sizeof(float *));
+    for (int i = 0; i < patchsize; i++) {
+        comparison_patch[i] = (float *)malloc(patchsize * sizeof(float));
+    }
+
     /* Loop for each pixel that is inside the patchsize limits */
     for (int i = patchsize / 2; i < height - patchsize / 2; i++) {
         for (int j = patchsize / 2; j < width - patchsize / 2; j++) {
             /* Create the patchsize * patchsize grid with the selected pixel at the centre */
-            float **pixel_patch = (float **)malloc(patchsize * sizeof(float *));
-            for (int i = 0; i < patchsize; i++) {
-                pixel_patch[i] = (float *)malloc(patchsize * sizeof(float));
-            }
             int counter_i = 0;
             for (int k = -patchsize / 2; k < patchsize / 2 + 1; k++) {
                 int counter_j = 0;
@@ -75,10 +81,6 @@ float **non_local_means(float **input_image, int patchsize, float filter_sigma, 
             for (int m = patchsize / 2; m < height - patchsize / 2; m++) {
                 for (int n = patchsize / 2; n < width - patchsize / 2; n++) {
                     /* Create the patchsize * patchsize grid with the selected pixel at the centre */
-                    float **comparison_patch = (float **)malloc(patchsize * sizeof(float *));
-                    for (int i = 0; i < patchsize; i++) {
-                        comparison_patch[i] = (float *)malloc(patchsize * sizeof(float));
-                    }
                     int counter_i = 0;
                     for (int k = -patchsize / 2; k < patchsize / 2 + 1; k++) {
                         int counter_j = 0;
@@ -112,6 +114,9 @@ float **non_local_means(float **input_image, int patchsize, float filter_sigma, 
             output_image[i][j] = output_image[i][j] / zeta;
         }
     }
+
+    free(comparison_patch);
+    free(pixel_patch);
 
     return output_image;
 }
@@ -217,6 +222,10 @@ int main(int argc, char **argv) {
     free(noisy_image_for_save);
     free(normalized_image);
     free(noisy_image);
+    free(normalized_noisy_2D);
+    free(normalized_denoised_2D);
+    free(noise_subtracted_image);
+    free(denoised_image);
 
     return 0;
 }
