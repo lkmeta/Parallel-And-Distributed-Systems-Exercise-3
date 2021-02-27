@@ -1,0 +1,27 @@
+seq results
+
+Running seq for file: ../images/elon_musk_64.jpg
+Command line: ../out/main ../images/elon_musk_64.jpg 3 0.2 1.67
+Duration: 4.340000
+Command line: ../out/main ../images/elon_musk_64.jpg 5 0.2 1.67
+Duration: 9.510000
+Command line: ../out/main ../images/elon_musk_64.jpg 7 0.2 1.67
+Duration: 16.020000
+
+
+Running seq for file: ../images/elon_musk_128.jpg
+Command line: ../out/main ../images/elon_musk_128.jpg 3 0.2 1.67
+Duration: 74.170000
+Command line: ../out/main ../images/elon_musk_128.jpg 5 0.2 1.67
+Duration: 172.900000
+Command line: ../out/main ../images/elon_musk_128.jpg 7 0.2 1.67
+Duration: 314.460000
+
+
+Running seq for file: ../images/elon_musk_256.jpg
+Command line: ../out/main ../images/elon_musk_256.jpg 3 0.2 1.67
+Duration: 1222.400000
+Command line: ../out/main ../images/elon_musk_256.jpg 5 0.2 1.67
+Duration: 2960.490000
+Command line: ../out/main ../images/elon_musk_256.jpg 7 0.2 1.67
+Duration: 4616.090000

@@ -1,0 +1,27 @@
+seq results
+
+Running seq for file: ../images/bitcoin_64.jpg
+Command line: ../out/main ../images/bitcoin_64.jpg 3 0.2 1.67
+Duration: 4.250000
+Command line: ../out/main ../images/bitcoin_64.jpg 5 0.2 1.67
+Duration: 9.410000
+Command line: ../out/main ../images/bitcoin_64.jpg 7 0.2 1.67
+Duration: 15.860000
+
+
+Running seq for file: ../images/bitcoin_128.jpg
+Command line: ../out/main ../images/bitcoin_128.jpg 3 0.2 1.67
+Duration: 72.420000
+Command line: ../out/main ../images/bitcoin_128.jpg 5 0.2 1.67
+Duration: 171.560000
+Command line: ../out/main ../images/bitcoin_128.jpg 7 0.2 1.67
+Duration: 309.920000
+
+
+Running seq for file: ../images/bitcoin_256.jpg
+Command line: ../out/main ../images/bitcoin_256.jpg 3 0.2 1.67
+Duration: 1190.610000
+Command line: ../out/main ../images/bitcoin_256.jpg 5 0.2 1.67
+Duration: 2940.710000
+Command line: ../out/main ../images/bitcoin_256.jpg 7 0.2 1.67
+Duration: 4261.250000
