@@ -61,25 +61,29 @@ Firstly, we see the file we use as input in our functions. The second image show
 
 ![Elon Musk](https://github.com/Mavioux/Parallel-And-Distributed-Systems-Exercise-3/blob/main/images/musk_final.jpg)  
 
+![Bitcoin](https://github.com/Mavioux/Parallel-And-Distributed-Systems-Exercise-3/blob/main/images/bitcoin_final.jpg)  
+
 ---
 <a name="3"></a>
 ### **Graphs** 
 
-Serial Implemention using only CPU
-|     | 3      | 5      | 7      |
-|:---:| :---:  | :---:  | :---:  |
-| 64  | 6,57   | 12,61  | 20,97  |
-| 128 | 111,28 | 240,43 |        |
-| 256 |        |        |        |
+**Sequential implementation using only CPU** 
+   
+   |     | 3      | 5      | 7      |
+   |:---:| :---:  | :---:  | :---:  | 
+   | 64  | 4,25   | 9,41   | 15,86  | 
+   | 128 | 72,42  | 171,56 | 309,92 | 
+   | 256 | 1190,61| 2940,71| TODO   |
 
-Parallel Implemention using CUDA
-|     | 3      | 5      | 7      |
-|:---:| :---:  | :---:  | :---:  |
-| 64  | 0,14   | 0,18   | 0,23   |
-| 128 | 0,37   | 1,14   | 2,75   |
-| 256 | 5,52   | 39,23  | 122,25 |
+**Parallel implementation using CUDA**
+   
+   |     | 3      | 5      | 7      |
+   |:---:| :---:  | :---:  | :---:  |
+   | 64  | 0,14   | 0,18   | 0,23   |
+   | 128 | 0,37   | 1,14   | 2,75   |
+   | 256 | 5,52   | 39,23  | 122,25 |
 
-TODO
+**Note**: We used Elon Musk image with 64px, 128px and 256px for the combinations of patch size values (3, 5, 7) in the previous arrays.
 
 
 ### Helpful functions
