@@ -1,0 +1,37 @@
+par results
+
+Running par for file: ../images/bitcoin_64.jpg
+Command line: ../out/main_cuda ../images/bitcoin_64.jpg 3 0.2 1.67
+Duration: 0.570000
+../images/../images/bitcoin_64.jpg_denoised.jpg
+Command line: ../out/main_cuda ../images/bitcoin_64.jpg 5 0.2 1.67
+Duration: 0.730000
+../images/../images/bitcoin_64.jpg_denoised.jpg
+Command line: ../out/main_cuda ../images/bitcoin_64.jpg 7 0.2 1.67
+Duration: 0.810000
+../images/../images/bitcoin_64.jpg_denoised.jpg
+
+
+Running par for file: ../images/bitcoin_128.jpg
+Command line: ../out/main_cuda ../images/bitcoin_128.jpg 3 0.2 1.67
+Duration: 1.010000
+../images/../images/bitcoin_128.jpg_denoised.jpg
+Command line: ../out/main_cuda ../images/bitcoin_128.jpg 5 0.2 1.67
+Duration: 1.770000
+../images/../images/bitcoin_128.jpg_denoised.jpg
+Command line: ../out/main_cuda ../images/bitcoin_128.jpg 7 0.2 1.67
+Duration: 3.340000
+../images/../images/bitcoin_128.jpg_denoised.jpg
+
+
+Running par for file: ../images/bitcoin_256.jpg
+Command line: ../out/main_cuda ../images/bitcoin_256.jpg 3 0.2 1.67
+Duration: 6.120000
+../images/../images/bitcoin_256.jpg_denoised.jpg
+Command line: ../out/main_cuda ../images/bitcoin_256.jpg 5 0.2 1.67
+Duration: 39.870000
+../images/../images/bitcoin_256.jpg_denoised.jpg
+Command line: ../out/main_cuda ../images/bitcoin_256.jpg 7 0.2 1.67
+Duration: 123.450000
+../images/../images/bitcoin_256.jpg_denoised.jpg
+
