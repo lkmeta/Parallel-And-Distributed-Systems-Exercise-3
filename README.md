@@ -43,7 +43,7 @@ If you want to run a function with one of the files that already in images folde
 ### **Results from HPC** 
 
 **Note:** We used the following [Scripts](https://github.com/Mavioux/Parallel-And-Distributed-Systems-Exercise-3/tree/main/scripts) in AUTh High Performance Computing (HPC) infrastructure to test our code.  
-We used different time durations for these scripts to compute the [results](TODO) for the tested files. 
+We used different time durations for these scripts to compute the [results](https://github.com/Mavioux/Parallel-And-Distributed-Systems-Exercise-3/tree/main/results) for the tested files. 
 
 **Script [```sequential.sh```](https://github.com/Mavioux/Parallel-And-Distributed-Systems-Exercise-3/blob/main/scripts/sequential.sh):**
    + calculates Non Local Means using sequential C code with two images (Elon Musk and Bitcoin) for the following combinations of patch size values
@@ -73,7 +73,7 @@ Firstly, we see the file we use as input in our functions. The second image show
    |:---:| :---:  | :---:  | :---:  | 
    | 64  | 4,25   | 9,41   | 15,86  | 
    | 128 | 72,42  | 171,56 | 309,92 | 
-   | 256 | 1190,61| 2940,71| TODO   |
+   | 256 | 1190,61| 2940,71| 4616.09|
 
 **Parallel implementation using CUDA**
    
