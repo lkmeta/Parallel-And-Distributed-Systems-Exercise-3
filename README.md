@@ -34,7 +34,7 @@ Taskbar
    
 **Examples:**  
 To run the functions you should contain 4 arguments.  
-If you want to run a function with one of the files that already in images folder run as shown below:
+If you want to run a function with one of the files that already is in image folder run as shown below:
    + ```../out/main <Path for jpg file> <Patch size value> <Filter Sigma value> <Patch Sigma value>```   
    + ```../out/main_cuda <Path for jpg file> <Patch size value> <Filter Sigma value> <Patch Sigma value>``` 
 
@@ -85,6 +85,23 @@ Firstly, we see the file we use as input in our functions. The second image show
 
 **Note**: We used Elon Musk image with 64px, 128px and 256px for the combinations of patch size values (3, 5, 7) in the previous arrays.
 
+Some graphs:
+
+The magenta bar charts represent the CPU and the GPU (multiplied by 10% to be visible in the diagram) time durations relative to the left y-axis. The green bar represents the GPU execution time duration without the scaling relative to the right y-axis. 
+
+![64](https://github.com/Mavioux/Parallel-And-Distributed-Systems-Exercise-3/blob/main/results/diagrams/64-7.jpg)  
+---
+
+![128](https://github.com/Mavioux/Parallel-And-Distributed-Systems-Exercise-3/blob/main/results/diagrams/128-5.jpg)  
+---
+
+![256](https://github.com/Mavioux/Parallel-And-Distributed-Systems-Exercise-3/blob/main/results/diagrams/256-3.jpg)  
+---
+
+Speedup diagram of each image and patch size.  
+
+![Speedup](https://github.com/Mavioux/Parallel-And-Distributed-Systems-Exercise-3/blob/main/results/diagrams/speedup.jpg)  
+---
 
 ### Helpful functions
 
@@ -105,9 +122,11 @@ So as to speed up the calculation of the value of each pixel, parallel programmi
 <a name="4"></a>
 ### **Sources** 
 
-[1] Image Manipulation Library: https://github.com/nothings/stb/
+[1] Low-dose X-ray computed tomography: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5381744/
 
-[2] AWGN: https://www.embeddedrelated.com/showcode/311.php
+[2] Image Manipulation Library: https://github.com/nothings/stb/
 
-[3] Extra PDF on NonLocal Image Algorithm: https://hal.archives-ouvertes.fr/hal-00271147/PDF/ijcvrevised.pdf
+[3] AWGN: https://www.embeddedrelated.com/showcode/311.php
+
+[4] Extra PDF on NonLocal Image Algorithm: https://hal.archives-ouvertes.fr/hal-00271147/PDF/ijcvrevised.pdf
 
