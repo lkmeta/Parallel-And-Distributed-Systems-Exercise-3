@@ -27,10 +27,10 @@ cuda: main_cuda.cu
 # TESTS
 
 testMain:
-	../out/main ../image/elon_musk_64.jpg 5 0.2 1.67
+	../out/main ../images/elon_musk_64.jpg 5 0.2 1.67
 
 testCuda:
-	../out/cuda ../image/elon_musk_128.jpg 7 0.2 1.67
+	../out/cuda ../images/elon_musk_128.jpg 7 0.2 1.67
 
 
 # ==========================================
